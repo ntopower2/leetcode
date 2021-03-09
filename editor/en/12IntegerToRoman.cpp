@@ -1,6 +1,5 @@
 #include "string"
 #include "iostream"
-#include "vector"
 
 using namespace std;
 //leetcode submit region begin(Prohibit modification and deletion)
