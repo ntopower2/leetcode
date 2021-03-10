@@ -13,9 +13,7 @@ public:
         string res;
         string temp[numRows];
         for (int i=0; i<s.length();i++)
-            if (i%step>=numRows) temp[step-(i%step)]+= s[i];
-            else if (i+1==numRows) temp[numRows-1]+=s[i];
-            else temp[i%step]+=s[i];
+            temp[(i%step>=numRows)?step-(i%step):i%step]+=s[i];
         for (const string& t:temp) res+=t;
         return res;
     }
