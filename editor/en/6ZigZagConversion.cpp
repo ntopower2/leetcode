@@ -7,14 +7,22 @@ using namespace std;
 class Solution {
 public:
     string convert(string s, int numRows) {
-        if (numRows==1 || s.length() < numRows)
+        if (numRows==1 || s.length() <= numRows)
             return s;
         const int step = 2*numRows-2;
         string res;
-        string temp[numRows];
-        for (int i=0; i<s.length();i++)
-            temp[(i%step>=numRows)?step-(i%step):i%step]+=s[i];
-        for (const string& t:temp) res+=t;
+        for (int i=0;i<s.length();i+=step) res+=s[i];
+        for (int row=1;row<numRows-1;row++) {
+            int i=row;
+            while (i<s.length()) {
+                res+=s[i];
+                i+=2*(numRows-1-row);
+                if (i>=s.length()) break;
+                res+=s[i];
+                i+=2*row;
+            }
+        }
+        for (int i=numRows-1;i<s.length();i+=step) res+=s[i];
         return res;
     }
 
