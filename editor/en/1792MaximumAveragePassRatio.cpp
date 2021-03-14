@@ -4,10 +4,10 @@
 #include "iostream"
 using namespace std;
 
-#define STUD_ADD(v) (v[0]+1.0)/(v[1]+1)
-#define STUD_CMP(v) STUD_ADD(v) - (v[0]*1.0/v[1])
+#define STUD_ADD(v) (v.first+1.0)/(v.second+1)
+#define STUD_CMP(v) STUD_ADD(v) - (v.first*1.0/v.second)
 struct heap_cmp {
-    bool operator()(const vector<int>& v1, const vector<int>& v2) const{
+    bool operator()(pair<int, int> v1, pair<int, int> v2) const{
         return STUD_CMP(v1) < STUD_CMP(v2);
     }
 };
@@ -15,17 +15,21 @@ struct heap_cmp {
 class Solution {
 public:
     double maxAverageRatio(vector<vector<int>>& classes, int extraStudents) {
-        double res=0.0;
-        make_heap(classes.begin(), classes.end(), heap_cmp());
-        while (extraStudents) {
-            auto p = classes.front();
-            pop_heap(classes.begin(), classes.end(), heap_cmp()); classes.pop_back();
-            p={p[0]+1, p[1]+1}; extraStudents--;
-            classes.push_back(p); push_heap(classes.begin(), classes.end(),heap_cmp());
+        double res=0.0; const int n = classes.size();
+        vector<pair<int,int>> vec(n);
+        for (int i=0;i<n;i++) {
+            vec[i]=make_pair(classes[i][0], classes[i][1]);
         }
-        for (auto v:classes)
-            res+=v[0]*1.0/v[1];
-        res/=classes.size();
+        make_heap(vec.begin(), vec.end(), heap_cmp());
+        while (extraStudents) {
+            auto p = vec.front();
+            pop_heap(vec.begin(), vec.end(), heap_cmp()); vec.pop_back();
+            p=make_pair(p.first+1, p.second+1); extraStudents--;
+            vec.push_back(p); push_heap(vec.begin(), vec.end(),heap_cmp());
+        }
+        for (auto v:vec)
+            res+=v.first*1.0/v.second;
+        res/=n;
         return res;
     }
 };
