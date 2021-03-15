@@ -16,12 +16,12 @@ public:
     ListNode* swapNodes(ListNode* head, int k) {
         if (!head->next) return head;
         ListNode* curr = head, *first, *second, *prevf, *prevs;
-        vector<ListNode*> lst;
+        ListNode* lst[(int)1e5];
+        int n = 0;
         while (curr) {
-            lst.emplace_back(curr);
+            lst[n++] = curr;
             curr = curr->next;
         }
-        int n = lst.size();
         if (n==2) {
             lst[0]->next= nullptr; lst[1]->next=lst[0];
             return lst[1];
