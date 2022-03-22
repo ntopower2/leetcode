@@ -6,12 +6,14 @@ using namespace std;
 class Solution {
 public:
     string getSmallestString(int n, int k) {
-        string res = "";
-        for (int i=0;i<n && k>0;++i) {
-            int num = min(k, 'z'-'a');
-            char val = 'a' + num;
-            res.append(&val);
-            k -= num;
+        string res;
+        res.append(n,'a');
+        int num;
+        k-=n;
+        while (k>0) {
+            num = min(k, 25);
+            res[--n] = 'a' + num;
+            k-=num;
         }
         return res;
     }
