@@ -18,13 +18,8 @@ class Solution:
         :type node: ListNode
         :rtype: void Do not return anything, modify node in-place instead.
         """
-        tmp = node.next
-        node.val = tmp.val
-        while tmp.next:
-            tmp.val = tmp.next.val
-            node = tmp
-            tmp = tmp.next
-        node.next = None
+        node.val = node.next.val
+        node.next = node.next.next
 
 
 x4 = ListNode(9, None)
