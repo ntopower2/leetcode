@@ -6,8 +6,7 @@ using namespace std;
 class Solution {
 public:
     string getSmallestString(int n, int k) {
-        string res;
-        res.append(n,'a');
+        string res(n,'a');
         int num;
         k-=n;
         while (k>0) {

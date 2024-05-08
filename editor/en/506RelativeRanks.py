@@ -1,22 +1,38 @@
+import heapq
 from typing import List
+
+
+class Pair:
+    def __init__(self, x, y):
+        self.index = x
+        self.value = y
+
+    # Override the less-than operator __lt__ to make Pair class work with max heap
+    def __lt__(self, other):
+        return self.value > other.value
+
+    def __repr__(self):
+        return f"({self.index}, {self.value})"
 
 
 class Solution:
     def findRelativeRanks(self, score: List[int]) -> List[str]:
-        indexToScore = []
+        d = []
         for i, val in enumerate(score):
-            indexToScore.append((val, i))
-        indexToScore.sort(reverse=True)
-        for i, tup in enumerate(indexToScore):
+            d.append(Pair(i, val))
+        heapq.heapify(d)
+        i = 0
+        while d:
+            p = heapq.heappop(d)
             if i == 0:
-                score[indexToScore[0][1]] = "Gold Medal"
+                score[p.index] = "Gold Medal"
             elif i == 1:
-                score[indexToScore[1][1]] = "Silver Medal"
+                score[p.index] = "Silver Medal"
             elif i == 2:
-                score[indexToScore[2][1]] = "Bronze Medal"
+                score[p.index] = "Bronze Medal"
             else:
-                score[tup[1]] = str(i + 1)
-
+                score[p.index] = str(i + 1)
+            i += 1
         return score
 
 
