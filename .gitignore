@@ -1,5 +1,7 @@
-*
-!*/
+.idea
+.vscode
+build/
+cmake-build-debug/
 !*.cpp
 !*.py
 !*.sh
