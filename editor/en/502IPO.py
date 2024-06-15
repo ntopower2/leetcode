@@ -6,6 +6,9 @@ class Solution:
     def findMaximizedCapital(
         self, k: int, w: int, profits: List[int], capital: List[int]
     ) -> int:
+        if w >= max(capital):
+            w += sum(nlargest(k, profits))
+            return w
         investments = [(cap, prof) for prof, cap in zip(profits, capital)]
         profitable = []
         heapify(investments)
