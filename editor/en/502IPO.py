@@ -1,38 +1,22 @@
 from typing import List
-from heapq import heapify, heappop, heappush
-
-
-class Investment:
-    def __init__(self, capital, profit) -> None:
-        self.cap = capital
-        self.prof = profit
-        self.isUsed = False
-
-    def use(self):
-        self.isUsed = True
+from heapq import heapify, heappop, heappush, nlargest
 
 
 class Solution:
     def findMaximizedCapital(
         self, k: int, w: int, profits: List[int], capital: List[int]
     ) -> int:
-        affordable = []
-        notYetAffordable = []
-        for prof, cap in zip(profits, capital):
-            if cap <= w:
-                affordable.append((-prof, cap))
-            else:
-                notYetAffordable.append((cap, prof))
-        heapify(affordable)
-        heapify(notYetAffordable)
-        if not affordable:
-            return w
-        while k and affordable:
-            tmp = heappop(affordable)
+        investments = [(cap, prof) for prof, cap in zip(profits, capital)]
+        profitable = []
+        heapify(investments)
+        while k:
+            while investments and w >= investments[0][0]:
+                tmp = heappop(investments)
+                heappush(profitable, (-tmp[1], tmp[0]))
+            if not profitable:
+                return w
+            tmp = heappop(profitable)
             w -= tmp[0]
-            while notYetAffordable and w >= notYetAffordable[0][0]:
-                tmp = heappop(notYetAffordable)
-                heappush(affordable, (-tmp[1], tmp[0]))
             k -= 1
         return w
 
