@@ -1,27 +1,16 @@
 from typing import List
-from heapq import *
 
 
 class Solution:
     def maximumImportance(self, n: int, roads: List[List[int]]) -> int:
-        nodeMap = {u: [0, []] for u in range(n)}
-        edgeHeap = []
+        degrees = [0] * n
         for u, v in roads:
-            nodeMap[u][1].append(v)
-            nodeMap[v][1].append(u)
+            degrees[u] += 1
+            degrees[v] += 1
 
-        for u in range(n):
-            heappush(edgeHeap, (-len(nodeMap[u][1]), u))
-        while edgeHeap:
-            _, x = heappop(edgeHeap)
-            nodeMap[x][0] = n
-            n -= 1
+        degrees.sort()
 
-        res = 0
-        for u, v in roads:
-            res += nodeMap[u][0] + nodeMap[v][0]
-
-        return res
+        return sum(i * degree for i, degree in zip(range(1, n + 1), degrees))
 
 
 assert (
