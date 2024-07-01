@@ -1,7 +1,7 @@
 .idea
 .vscode
-build/
-cmake-build-debug/
+build
+cmake-build-debug
 !*.cpp
 !*.py
 !*.sh
