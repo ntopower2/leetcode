@@ -1,11 +1,8 @@
 class Solution:
     def numWaterBottles(self, numBottles: int, numExchange: int) -> int:
-        drank = emptyBottles = numBottles
-        while emptyBottles >= numExchange:
-            backFilled, remainedEmpty = divmod(emptyBottles, numExchange)
-            drank += backFilled
-            emptyBottles = backFilled + remainedEmpty
-        return drank
+        earned, remained = divmod(numBottles, numExchange - 1)
+        res = numBottles + earned
+        return res if remained else res - 1
 
 
 assert Solution().numWaterBottles(9, 3) == 13
