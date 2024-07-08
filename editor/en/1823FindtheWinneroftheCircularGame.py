@@ -1,21 +1,12 @@
 class Solution:
     def findTheWinner(self, n: int, k: int) -> int:
-        k -= 1
-        s = list(range(n))
-        i = 0
+        tmp = 0
+        for i in range(1, n + 1):
+            tmp += k
+            tmp %= i
 
-        while len(s) > 1:
-            steps = 0
-            if i == len(s):
-                i = 0
-            while steps < k:
-                i += 1
-                steps += 1
-                if i == len(s):
-                    i = 0
-            s.pop(i)
-
-        return s[0] + 1
+        return tmp + 1
 
 
+assert Solution().findTheWinner(5, 2) == 3
 assert Solution().findTheWinner(6, 5) == 1
