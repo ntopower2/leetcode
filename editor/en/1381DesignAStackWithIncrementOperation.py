@@ -9,25 +9,29 @@
 class CustomStack:
     def __init__(self, maxSize: int):
         self.values = [-1] * maxSize
+        self.increments = [0] * maxSize
         self.size = 0
 
     def push(self, x: int) -> None:
-        if self.size == len(self.values):
-            return
-        self.values[self.size] = x
-        self.size += 1
+        if self.size < len(self.values):
+            self.values[self.size] = x
+            self.size += 1
 
     def pop(self) -> int:
         if not self.size:
             return -1
 
         self.size -= 1
-        tmp = self.values[self.size]
+        tmp = self.values[self.size] + self.increments[self.size]
+        if self.size:
+            self.increments[self.size - 1] += self.increments[self.size]
+        self.increments[self.size] = 0
         return tmp
 
     def increment(self, k: int, val: int) -> None:
-        for i in range(min(k, self.size)):
-            self.values[i] += val
+        if not self.size:
+            return
+        self.increments[min(k, self.size) - 1] += val
 
 
 # Your CustomStack object will be instantiated and called as such:
@@ -61,18 +65,14 @@ def driver(operations, values):
 assert driver(
     [
         "CustomStack",
-        "push",
-        "push",
         "pop",
-        "push",
-        "push",
+        "increment",
         "push",
         "increment",
         "increment",
+        "increment",
         "pop",
-        "pop",
-        "pop",
-        "pop",
+        "increment",
     ],
-    [[3], [1], [2], [], [2], [3], [4], [5, 100], [2, 100], [], [], [], []],
-) == [None, None, None, 2, None, None, None, None, None, 103, 202, 201, -1]
+    [[30], [], [3, 40], [30], [4, 63], [2, 79], [5, 57], [], [5, 32]],
+) == [None, -1, None, None, None, None, None, 229, None]
